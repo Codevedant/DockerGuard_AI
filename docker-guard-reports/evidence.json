@@ -1,0 +1,343 @@
+{
+  "generated_at_utc": "2026-10-10T11:36:01.836803+00:00",
+  "project_directory": "/home/ubuntu/devboard/frontend",
+  "dockerfile_review": {
+    "dockerfile": "/home/ubuntu/devboard/frontend/Dockerfile",
+    "checks": [
+      {
+        "severity": "MEDIUM",
+        "category": "Runtime privilege",
+        "line": "-",
+        "finding": "No USER instruction detected; the image default user is not proven by this file.",
+        "recommendation": "Inspect image config and use a non-root user when supported."
+      }
+    ],
+    "source": "# Stage 1: Build\nFROM node:22-alpine AS build\n\nWORKDIR /app\n\nCOPY package*.json ./\n\nRUN npm install --legacy-peer-deps\n\nCOPY . .\n\nRUN npm run build\n\n\n# Stage 2: Production\nFROM nginx:alpine\n\nCOPY --from=build /app/dist /usr/share/nginx/html\n\nEXPOSE 80\n\nCMD [\"nginx\", \"-g\", >\"daemon off;\"]\n",
+    "dockerignore": "node_modules\ndist\n.git\n.DS_Store\n",
+    "dockerignore_exists": true,
+    "from_instructions": [
+      "FROM node:22-alpine AS build",
+      "FROM nginx:alpine"
+    ]
+  },
+  "images": [
+    {
+      "image": "devboard-fe:full",
+      "info": {
+        "id": "sha256:276abd22f7e5800803da380abf63e11450d56dcfa4eda446d07e6295563e5aea",
+        "repo_tags": [
+          "devboard-fe:full",
+          "devboard-fe:multistage"
+        ],
+        "size_bytes": 26406397,
+        "size_mb": 25.18,
+        "created": "2026-10-07T14:08:15.372725183Z",
+        "architecture": "amd64",
+        "os": "linux",
+        "user": "(empty/default; verify effective user)",
+        "entrypoint": [
+          "/docker-entrypoint.sh"
+        ],
+        "cmd": [
+          "/bin/sh",
+          "-c",
+          "[\"nginx\", \"-g\", >\"daemon off;\"]"
+        ],
+        "exposed_ports": {
+          "80/tcp": {}
+        },
+        "environment_names": [
+          "ACME_VERSION",
+          "DYNPKG_RELEASE",
+          "NGINX_VERSION",
+          "NJS_RELEASE",
+          "NJS_VERSION",
+          "PATH",
+          "PKG_RELEASE"
+        ],
+        "history": {
+          "command": "docker history --no-trunc devboard-fe:full",
+          "returncode": 0,
+          "stdout": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0B        buildkit.dockerfile.v0\n<missing>                                                                 2 weeks ago   ENV NGINX_VERSION=1.31.6                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          0B        buildkit.dockerfile.v0\n<missing>                                                                 2 weeks ago   LABEL maintainer=NGINX Docker Maintainers <docker-maint@nginx.com>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                0B        buildkit.dockerfile.v0\n<missing>                                                                 3 weeks ago   CMD [\"/bin/sh\"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0B        buildkit.dockerfile.v0\n<missing>                                                                 3 weeks ago   ADD alpine-minirootfs-3.24.2-x86_64.tar.gz / # buildkit                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           9.08MB    buildkit.dockerfile.v0\n",
+          "stderr": ""
+        }
+      },
+      "scanners": {
+        "scout_quickview": {
+          "command": "docker scout quickview local://devboard-fe:full",
+          "returncode": 0,
+          "stdout": "\n\n Target             │  local://devboard-fe:full  │    0C     6H     5M     5L     2?  \n   digest           │  276abd22f7e5              │                                    \n Base image         │  nginx:1-alpine            │    0C     6H     5M     5L     2?  \n Updated base image │  nginx:1-alpine-slim       │    0C     2H     0M     0L         \n                    │                            │           -4     -5     -5     -2  \n\nPolicy status  FAILED  (3/7 policies met)\nHealth score  D  (50%)\n\n Status │                     Policy                     │           Results           \n────────┼────────────────────────────────────────────────┼─────────────────────────────\n !      │ Image runs as the root user                    │                             \n !      │ Copyleft licensed packages found               │    35 packages              \n !      │ Fixable critical or high vulnerabilities found │    0C     5H     0M     0L  \n ✓      │ No high-profile vulnerabilities                │    0C     0H     0M     0L  \n ✓      │ No outdated base images                        │                             \n ✓      │ No unapproved base images                      │    0 deviations             \n !      │ Required supply chain attestations missing     │    2 deviations             \n\nWhat's next:\n    View policy violations → docker scout policy local://devboard-fe:full\n    View vulnerabilities → docker scout cves local://devboard-fe:full\n    View base image update recommendations → docker scout recommendations local://devboard-fe:full\n    Compare with the latest in the registry → docker scout compare --to-latest local://devboard-fe:full\n\n",
+          "stderr": "    ✓ SBOM of image already cached, 87 packages indexed\n    ...Evaluating policies\n    ✓ Policy evaluation completed\n    i Base image was auto-detected. To get more accurate results, build images with max-mode provenance attestations.\n      Review https://docs.docker.com/build/attestations/slsa-provenance/ for more information.\n"
+        },
+        "scout_cves": {
+          "command": "docker scout cves local://devboard-fe:full",
+          "returncode": 0,
+          "stdout": "\n\n## Overview\n\n                   │           Analyzed Image           \n───────────────────┼────────────────────────────────────\n Target            │  local://devboard-fe:full          \n   digest          │  276abd22f7e5                      \n   platform        │ linux/amd64                        \n   vulnerabilities │    0C     6H     5M     5L     2?  \n   size            │ 26 MB                              \n   packages        │ 87                                 \n\n\n## Packages and Vulnerabilities\n\n   0C     3H     0M     0L  expat 2.8.4-r0\npkg:apk/alpine/expat@2.8.4-r0?os_name=alpine&os_version=3.24\n\n    ✗ HIGH CVE-2026-93990\n      https://scout.docker.com/v/CVE-2026-93990?s=alpine&n=expat&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C2.8.5-r0\n      Affected range : <2.8.5-r0 \n      Fixed version  : 2.8.5-r0  \n    \n    ✗ HIGH CVE-2026-77214\n      https://scout.docker.com/v/CVE-2026-77214?s=alpine&n=expat&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C2.9.0-r0\n      Affected range : <2.9.0-r0 \n      Fixed version  : 2.9.0-r0  \n    \n    ✗ HIGH CVE-2026-102633\n      https://scout.docker.com/v/CVE-2026-102633?s=alpine&n=expat&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C2.9.0-r0\n      Affected range : <2.9.0-r0 \n      Fixed version  : 2.9.0-r0  \n    \n\n   0C     1H     5M     5L  libxml2 2.13.9-r2\npkg:apk/alpine/libxml2@2.13.9-r2?os_name=alpine&os_version=3.24\n\n    ✗ HIGH CVE-2026-86140\n      https://scout.docker.com/v/CVE-2026-86140?s=alpine&n=libxml2&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C%3D2.13.9-r2\n      Affected range : <=2.13.9-r2 \n      Fixed version  : not fixed   \n    \n    ✗ MEDIUM CVE-2026-86143\n      https://scout.docker.com/v/CVE-2026-86143?s=alpine&n=libxml2&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C%3D2.13.9-r2\n      Affected range : <=2.13.9-r2 \n      Fixed version  : not fixed   \n    \n    ✗ MEDIUM CVE-2026-86142\n      https://scout.docker.com/v/CVE-2026-86142?s=alpine&n=libxml2&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C%3D2.13.9-r2\n      Affected range : <=2.13.9-r2 \n      Fixed version  : not fixed   \n    \n    ✗ MEDIUM CVE-2026-86139\n      https://scout.docker.com/v/CVE-2026-86139?s=alpine&n=libxml2&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C%3D2.13.9-r2\n      Affected range : <=2.13.9-r2 \n      Fixed version  : not fixed   \n    \n    ✗ MEDIUM CVE-2026-86138\n      https://scout.docker.com/v/CVE-2026-86138?s=alpine&n=libxml2&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C%3D2.13.9-r2\n      Affected range : <=2.13.9-r2 \n      Fixed version  : not fixed   \n    \n    ✗ MEDIUM CVE-2026-86144\n      https://scout.docker.com/v/CVE-2026-86144?s=alpine&n=libxml2&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C%3D2.13.9-r2\n      Affected range : <=2.13.9-r2 \n      Fixed version  : not fixed   \n    \n    ✗ LOW CVE-2026-0989\n      https://scout.docker.com/v/CVE-2026-0989?s=alpine&n=libxml2&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C%3D2.13.9-r2\n      Affected range : <=2.13.9-r2 \n      Fixed version  : not fixed   \n    \n    ✗ LOW CVE-2026-86141\n      https://scout.docker.com/v/CVE-2026-86141?s=alpine&n=libxml2&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C%3D2.13.9-r2\n      Affected range : <=2.13.9-r2 \n      Fixed version  : not fixed   \n    \n    ✗ LOW CVE-2026-86137\n      https://scout.docker.com/v/CVE-2026-86137?s=alpine&n=libxml2&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C%3D2.13.9-r2\n      Affected range : <=2.13.9-r2 \n      Fixed version  : not fixed   \n    \n    ✗ LOW CVE-2025-8732\n      https://scout.docker.com/v/CVE-2025-8732?s=alpine&n=libxml2&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C%3D2.13.9-r2\n      Affected range : <=2.13.9-r2 \n      Fixed version  : not fixed   \n    \n    ✗ LOW CVE-2026-11979\n      https://scout.docker.com/v/CVE-2026-11979?s=alpine&n=libxml2&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C%3D2.13.9-r2\n      Affected range : <=2.13.9-r2 \n      Fixed version  : not fixed   \n    \n\n   0C     1H     0M     0L  zlib 1.3.2-r0\npkg:apk/alpine/zlib@1.3.2-r0?os_name=alpine&os_version=3.24\n\n    ✗ HIGH CVE-2026-85091\n      https://scout.docker.com/v/CVE-2026-85091?s=alpine&n=zlib&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C1.3.2-r1\n      Affected range : <1.3.2-r1 \n      Fixed version  : 1.3.2-r1  \n    \n\n   0C     1H     0M     0L  pcre2 10.48-r0\npkg:apk/alpine/pcre2@10.48-r0?os_name=alpine&os_version=3.24\n\n    ✗ HIGH CVE-2026-103111\n      https://scout.docker.com/v/CVE-2026-103111?s=alpine&n=pcre2&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C10.49-r0\n      Affected range : <10.49-r0 \n      Fixed version  : 10.49-r0  \n    \n\n   0C     0H     0M     0L     1?  nghttp2 1.69.0-r0\npkg:apk/alpine/nghttp2@1.69.0-r0?os_name=alpine&os_version=3.24\n\n    ✗ UNSPECIFIED CVE-2026-58055\n      https://scout.docker.com/v/CVE-2026-58055?s=alpine&n=nghttp2&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C1.70.0-r0\n      Affected range : <1.70.0-r0 \n      Fixed version  : 1.70.0-r0  \n    \n\n   0C     0H     0M     0L     1?  libpng 1.6.58-r1\npkg:apk/alpine/libpng@1.6.58-r1?os_name=alpine&os_version=3.24\n\n    ✗ UNSPECIFIED CVE-2026-46675\n      https://scout.docker.com/v/CVE-2026-46675?s=alpine&n=libpng&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C1.6.59-r0\n      Affected range : <1.6.59-r0 \n      Fixed version  : 1.6.59-r0  \n    \n\n\n18 vulnerabilities found in 6 packages\n  CRITICAL     0 \n  HIGH         6 \n  MEDIUM       5 \n  LOW          5 \n  UNSPECIFIED  2 \n\n",
+          "stderr": "    ✓ SBOM of image already cached, 87 packages indexed\n    ✗ Detected 6 vulnerable packages with a total of 18 vulnerabilities\n\nWhat's next:\n    View base image update recommendations → docker scout recommendations local://devboard-fe:full\n\n"
+        },
+        "scout_recommendations": {
+          "command": "docker scout recommendations local://devboard-fe:full",
+          "returncode": 0,
+          "stdout": "\n\n Target   │  local://devboard-fe:full  \n   digest │  276abd22f7e5              \n\n## Recommended fixes\n\n  Base image is  nginx:1-alpine \n\n Name            │  1-alpine                                                                 \n Digest          │  sha256:0530961ff0592b58c10f767535cc0abdfccf9e389ff7cc90f87320c1bc7e8506  \n Vulnerabilities │    0C     6H     5M     5L     2?                                         \n Pushed          │ 2 weeks ago                                                               \n Size            │ 26 MB                                                                     \n Packages        │ 87                                                                        \n Flavor          │ alpine                                                                    \n Runtime         │ 1.31.6                                                                    \n\n                                                                                                                                                           \n  | The base image is also available under the supported tag(s) 1-alpine3.24, 1.31-alpine, 1.31-alpine3.24, 1.31.6-alpine, 1.31.6-alpine3.24, alpine,      \n  | alpine3.24,                                                                                                                                            \n  | mainline-alpine, mainline-alpine3.24. If you want to display recommendations specifically for a different tag, please re-run the command using the --  \n  tag                                                                                                                                                      \n  | flag.                                                                                                                                                  \n\n\n\nRefresh base image\n  Rebuild the image using a newer base image version. Updating this may result in breaking changes.\n\n  ✓ This image version is up to date.\n\n\nChange base image\n  The list displays new recommended tags in descending order, where the top results are rated as most suitable.\n\n\n             Tag              │                        Details                         │   Pushed    │          Vulnerabilities           \n──────────────────────────────┼────────────────────────────────────────────────────────┼─────────────┼────────────────────────────────────\n  1-alpine-slim               │ Benefits:                                              │ 2 weeks ago │    0C     2H     0M     0L         \n Minor runtime version update │ • Same OS detected                                     │             │           -4     -5     -5     -2  \n Also known as:               │ • Minor runtime version update                         │             │                                    \n • 1.31.6-alpine-slim         │ • Image is smaller by 20 MB                            │             │                                    \n • 1.31-alpine-slim           │ • Image contains 61 fewer packages                     │             │                                    \n • alpine-slim                │ • Image introduces no new vulnerability but removes 14 │             │                                    \n • alpine3.24-slim            │ • Tag is using slim variant                            │             │                                    \n • 1-alpine3.24-slim          │ • 1-alpine-slim was pulled 215K times last month       │             │                                    \n • 1.31-alpine3.24-slim       │                                                        │             │                                    \n • mainline-alpine-slim       │ Image details:                                         │             │                                    \n • 1.31.6-alpine3.24-slim     │ • Size: 5.8 MB                                         │             │                                    \n • mainline-alpine3.24-slim   │ • Flavor: alpine                                       │             │                                    \n                              │ • Runtime: 1.31.6                                      │             │                                    \n                              │                                                        │             │                                    \n                              │                                                        │             │                                    \n                              │                                                        │             │                                    \n\n",
+          "stderr": "    ✓ SBOM of image already cached, 87 packages indexed\n    i Base image was auto-detected. To get more accurate recommendations, build images with max-mode provenance attestations.\n      Review https://docs.docker.com/build/attestations/slsa-provenance/ for more information.\n      Alternatively, use  docker scout recommendations --tag <base image tag>  to pass a specific base image tag.\n"
+        },
+        "trivy": {
+          "command": "trivy image --format json --output /home/ubuntu/devboard/DockerGuard_AI/docker-guard-reports/devboard-fe_full.trivy.json devboard-fe:full",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": "------------------------------------>] 100.00% 85.63 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 80.11 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 80.11 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 80.11 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 74.94 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 74.94 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 74.94 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 70.11 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 70.11 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 70.11 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 65.58 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 65.58 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 65.58 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 61.35 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 61.35 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 61.35 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 57.39 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 57.39 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 57.39 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 53.69 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 53.69 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 53.69 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 50.23 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 50.23 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 50.23 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 46.99 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 46.99 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 46.99 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 43.96 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [--------------------------------------------------------------------------------------------------------------->] 100.00% 43.96 MiB p/s ETA 0s120.64 MiB / 120.64 MiB [------------------------------------------------------------------------------------------------------------------] 100.00% 12.90 MiB p/s 9.6s2026-10-10T11:36:21Z\tINFO\t[vulndb] Artifact successfully downloaded\trepo=\"mirror.gcr.io/aquasec/trivy-db:2\"\n2026-10-10T11:36:21Z\tINFO\t[vuln] Vulnerability scanning is enabled\n2026-10-10T11:36:21Z\tINFO\t[secret] Secret scanning is enabled\n2026-10-10T11:36:21Z\tINFO\t[secret] If your scanning is slow, please try '--scanners vuln' to disable secret scanning\n2026-10-10T11:36:21Z\tINFO\t[secret] Please see https://trivy.dev/docs/v0.75/guide/scanner/secret#recommendation for faster secret detection\n2026-10-10T11:36:23Z\tINFO\tDetected OS\tfamily=\"alpine\" version=\"3.24.2\"\n2026-10-10T11:36:23Z\tINFO\t[alpine] Detecting vulnerabilities...\tos_version=\"3.24\" repository=\"3.24\" pkg_num=71\n2026-10-10T11:36:23Z\tINFO\tNumber of language-specific files\tnum=0\n2026-10-10T11:36:23Z\tWARN\tUsing severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.75/guide/scanner/vulnerability#severity-selection for details.\n"
+        },
+        "trivy_json_path": "/home/ubuntu/devboard/DockerGuard_AI/docker-guard-reports/devboard-fe_full.trivy.json",
+        "trivy_summary": {
+          "counts": {
+            "CRITICAL": 0,
+            "HIGH": 3,
+            "MEDIUM": 3,
+            "LOW": 0,
+            "UNKNOWN": 0
+          },
+          "findings": [
+            {
+              "target": "devboard-fe:full (alpine 3.24.2)",
+              "package": "libexpat",
+              "installed_version": "2.8.4-r0",
+              "fixed_version": "2.8.5-r0",
+              "severity": "HIGH",
+              "vulnerability_id": "CVE-2026-93990",
+              "title": "expat: Expat: XML Injection via Malformed UTF-16 Input"
+            },
+            {
+              "target": "devboard-fe:full (alpine 3.24.2)",
+              "package": "libpng",
+              "installed_version": "1.6.58-r1",
+              "fixed_version": "1.6.59-r0",
+              "severity": "MEDIUM",
+              "vulnerability_id": "CVE-2026-46675",
+              "title": "[Use-after-free of zlib input in `png_read_end` after incomplete zTXt, iTXt or iCCP decompression]"
+            },
+            {
+              "target": "devboard-fe:full (alpine 3.24.2)",
+              "package": "nghttp2-libs",
+              "installed_version": "1.69.0-r0",
+              "fixed_version": "1.70.0-r0",
+              "severity": "MEDIUM",
+              "vulnerability_id": "CVE-2026-58055",
+              "title": "nghttp2: nghttp2: HTTP Request/Response Smuggling and Response-Queue Poisoning via ambiguous HTTP/1.1 Upgrade requests"
+            },
+            {
+              "target": "devboard-fe:full (alpine 3.24.2)",
+              "package": "pcre2",
+              "installed_version": "10.48-r0",
+              "fixed_version": "10.49-r0",
+              "severity": "HIGH",
+              "vulnerability_id": "CVE-2026-103111",
+              "title": "pcre2: pcre2: Out-of-bounds write via crafted regular expression"
+            },
+            {
+              "target": "devboard-fe:full (alpine 3.24.2)",
+              "package": "tiff",
+              "installed_version": "4.7.1-r0",
+              "fixed_version": "4.7.2-r0",
+              "severity": "HIGH",
+              "vulnerability_id": "CVE-2026-4775",
+              "title": "libtiff: libtiff: Arbitrary code execution or denial of service via signed integer overflow in TIFF file processing"
+            },
+            {
+              "target": "devboard-fe:full (alpine 3.24.2)",
+              "package": "zlib",
+              "installed_version": "1.3.2-r0",
+              "fixed_version": "1.3.2-r1",
+              "severity": "MEDIUM",
+              "vulnerability_id": "CVE-2026-85091",
+              "title": "zlib versions 1.3.1.2 through 1.3.2 contain a heap buffer overflow vul ..."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "containers": {
+    "list_command": {
+      "command": "docker ps -a --no-trunc --format {{json .}}",
+      "returncode": 0,
+      "stdout": "{\"Command\":\"\\\"/docker-entrypoint.sh /bin/sh -c '[\\\\\\\"nginx\\\\\\\", \\\\\\\"-g\\\\\\\", \\u003e\\\\\\\"daemon off;\\\\\\\"]'\\\"\",\"CreatedAt\":\"2026-10-09 06:31:10 +0000 UTC\",\"ID\":\"70156dfbaa2778abc8955523b41aa6eb4a85aaa3a83a90460c5dd31e927e22f7\",\"Image\":\"devboard-fe:full\",\"Labels\":\"maintainer=NGINX Docker Maintainers \\u003cdocker-maint@nginx.com\\u003e\",\"LocalVolumes\":\"0\",\"Mounts\":\"\",\"Names\":\"mystifying_robinson\",\"Networks\":\"bridge\",\"Platform\":{\"architecture\":\"amd64\",\"os\":\"linux\"},\"Ports\":\"\",\"RunningFor\":\"29 hours ago\",\"Size\":\"4.1kB (virtual 67.5MB)\",\"State\":\"exited\",\"Status\":\"Exited (127) 29 hours ago\"}\n{\"Command\":\"\\\"/docker-entrypoint.sh /bin/sh -c '[\\\\\\\"nginx\\\\\\\", \\\\\\\"-g\\\\\\\", \\u003e\\\\\\\"daemon off;\\\\\\\"]'\\\"\",\"CreatedAt\":\"2026-10-09 06:28:48 +0000 UTC\",\"ID\":\"3ccb19f37da9f5f8be3441caf056c21df43eb2a8ca5c8a028edbc5d7bc59bb24\",\"Image\":\"devboard-fe:full\",\"Labels\":\"maintainer=NGINX Docker Maintainers \\u003cdocker-maint@nginx.com\\u003e\",\"LocalVolumes\":\"0\",\"Mounts\":\"\",\"Names\":\"vibrant_pascal\",\"Networks\":\"bridge\",\"Platform\":{\"architecture\":\"amd64\",\"os\":\"linux\"},\"Ports\":\"\",\"RunningFor\":\"29 hours ago\",\"Size\":\"4.1kB (virtual 67.5MB)\",\"State\":\"exited\",\"Status\":\"Exited (127) 29 hours ago\"}\n{\"Command\":\"\\\"nginx -g 'daemon off;'\\\"\",\"CreatedAt\":\"2026-10-08 05:44:46 +0000 UTC\",\"ID\":\"4876e3e30d5aa4d97224ab57b3f1498c77cdf724f8f03303ecded37a004b9f18\",\"Image\":\"dhi.io/nginx:1.29-debian13\",\"Labels\":\"com.docker.dhi.chain-id=sha256:fe4003760f9eab6986cef0dfb9dbe012c45e980fc7094885f9d5c54ffe59ea1a,com.docker.dhi.compliance=cis,com.docker.dhi.created=2026-04-07T15:30:16Z,com.docker.dhi.date.release=2025-06-24,com.docker.dhi.definition=image/nginx/debian-13/mainline,com.docker.dhi.distro=debian-13,com.docker.dhi.entitlement=public,com.docker.dhi.flavor=,com.docker.dhi.name=dhi/nginx,com.docker.dhi.package-manager=,com.docker.dhi.shell=,com.docker.dhi.title=Nginx mainline,com.docker.dhi.url=https://dhi.io/catalog/nginx,com.docker.dhi.variant=runtime,com.docker.dhi.version=1.29.8-debian13\",\"LocalVolumes\":\"0\",\"Mounts\":\"\",\"Names\":\"tender_brown\",\"Networks\":\"bridge\",\"Platform\":{\"architecture\":\"amd64\",\"os\":\"linux\"},\"Ports\":\"\",\"RunningFor\":\"2 days ago\",\"Size\":\"57.3kB (virtual 41.8MB)\",\"State\":\"exited\",\"Status\":\"Exited (0) 2 days ago\"}\n{\"Command\":\"\\\"nginx -g 'daemon off;'\\\"\",\"CreatedAt\":\"2026-10-08 05:27:15 +0000 UTC\",\"ID\":\"fe7c5930beebba73baa36b55034e578da66aff4f33a660d584fbaaa7f69c4bc2\",\"Image\":\"dhi.io/nginx:1.29-debian13\",\"Labels\":\"com.docker.dhi.chain-id=sha256:fe4003760f9eab6986cef0dfb9dbe012c45e980fc7094885f9d5c54ffe59ea1a,com.docker.dhi.compliance=cis,com.docker.dhi.created=2026-04-07T15:30:16Z,com.docker.dhi.date.release=2025-06-24,com.docker.dhi.definition=image/nginx/debian-13/mainline,com.docker.dhi.distro=debian-13,com.docker.dhi.entitlement=public,com.docker.dhi.flavor=,com.docker.dhi.name=dhi/nginx,com.docker.dhi.package-manager=,com.docker.dhi.shell=,com.docker.dhi.title=Nginx mainline,com.docker.dhi.url=https://dhi.io/catalog/nginx,com.docker.dhi.variant=runtime,com.docker.dhi.version=1.29.8-debian13\",\"LocalVolumes\":\"0\",\"Mounts\":\"\",\"Names\":\"exciting_golick\",\"Networks\":\"bridge\",\"Platform\":{\"architecture\":\"amd64\",\"os\":\"linux\"},\"Ports\":\"\",\"RunningFor\":\"2 days ago\",\"Size\":\"57.3kB (virtual 41.8MB)\",\"State\":\"exited\",\"Status\":\"Exited (0) 2 days ago\"}\n",
+      "stderr": ""
+    },
+    "containers": [
+      {
+        "summary": {
+          "Command": "\"/docker-entrypoint.sh /bin/sh -c '[\\\"nginx\\\", \\\"-g\\\", >\\\"daemon off;\\\"]'\"",
+          "CreatedAt": "2026-10-09 06:31:10 +0000 UTC",
+          "ID": "70156dfbaa2778abc8955523b41aa6eb4a85aaa3a83a90460c5dd31e927e22f7",
+          "Image": "devboard-fe:full",
+          "Labels": "maintainer=NGINX Docker Maintainers <docker-maint@nginx.com>",
+          "LocalVolumes": "0",
+          "Mounts": "",
+          "Names": "mystifying_robinson",
+          "Networks": "bridge",
+          "Platform": {
+            "architecture": "amd64",
+            "os": "linux"
+          },
+          "Ports": "",
+          "RunningFor": "29 hours ago",
+          "Size": "4.1kB (virtual 67.5MB)",
+          "State": "exited",
+          "Status": "Exited (127) 29 hours ago"
+        },
+        "inspect_error": null,
+        "security_review": {
+          "name": "mystifying_robinson",
+          "image": "devboard-fe:full",
+          "state": "exited",
+          "running": false,
+          "user": "(image default)",
+          "privileged": false,
+          "readonly_rootfs": false,
+          "cap_add": [],
+          "security_opt": [],
+          "network_mode": "bridge",
+          "published_ports": {},
+          "mounts": [],
+          "restart_policy": "no"
+        }
+      },
+      {
+        "summary": {
+          "Command": "\"/docker-entrypoint.sh /bin/sh -c '[\\\"nginx\\\", \\\"-g\\\", >\\\"daemon off;\\\"]'\"",
+          "CreatedAt": "2026-10-09 06:28:48 +0000 UTC",
+          "ID": "3ccb19f37da9f5f8be3441caf056c21df43eb2a8ca5c8a028edbc5d7bc59bb24",
+          "Image": "devboard-fe:full",
+          "Labels": "maintainer=NGINX Docker Maintainers <docker-maint@nginx.com>",
+          "LocalVolumes": "0",
+          "Mounts": "",
+          "Names": "vibrant_pascal",
+          "Networks": "bridge",
+          "Platform": {
+            "architecture": "amd64",
+            "os": "linux"
+          },
+          "Ports": "",
+          "RunningFor": "29 hours ago",
+          "Size": "4.1kB (virtual 67.5MB)",
+          "State": "exited",
+          "Status": "Exited (127) 29 hours ago"
+        },
+        "inspect_error": null,
+        "security_review": {
+          "name": "vibrant_pascal",
+          "image": "devboard-fe:full",
+          "state": "exited",
+          "running": false,
+          "user": "(image default)",
+          "privileged": false,
+          "readonly_rootfs": false,
+          "cap_add": [],
+          "security_opt": [],
+          "network_mode": "bridge",
+          "published_ports": {},
+          "mounts": [],
+          "restart_policy": "no"
+        }
+      },
+      {
+        "summary": {
+          "Command": "\"nginx -g 'daemon off;'\"",
+          "CreatedAt": "2026-10-08 05:44:46 +0000 UTC",
+          "ID": "4876e3e30d5aa4d97224ab57b3f1498c77cdf724f8f03303ecded37a004b9f18",
+          "Image": "dhi.io/nginx:1.29-debian13",
+          "Labels": "com.docker.dhi.chain-id=sha256:fe4003760f9eab6986cef0dfb9dbe012c45e980fc7094885f9d5c54ffe59ea1a,com.docker.dhi.compliance=cis,com.docker.dhi.created=2026-04-07T15:30:16Z,com.docker.dhi.date.release=2025-06-24,com.docker.dhi.definition=image/nginx/debian-13/mainline,com.docker.dhi.distro=debian-13,com.docker.dhi.entitlement=public,com.docker.dhi.flavor=,com.docker.dhi.name=dhi/nginx,com.docker.dhi.package-manager=,com.docker.dhi.shell=,com.docker.dhi.title=Nginx mainline,com.docker.dhi.url=https://dhi.io/catalog/nginx,com.docker.dhi.variant=runtime,com.docker.dhi.version=1.29.8-debian13",
+          "LocalVolumes": "0",
+          "Mounts": "",
+          "Names": "tender_brown",
+          "Networks": "bridge",
+          "Platform": {
+            "architecture": "amd64",
+            "os": "linux"
+          },
+          "Ports": "",
+          "RunningFor": "2 days ago",
+          "Size": "57.3kB (virtual 41.8MB)",
+          "State": "exited",
+          "Status": "Exited (0) 2 days ago"
+        },
+        "inspect_error": null,
+        "security_review": {
+          "name": "tender_brown",
+          "image": "dhi.io/nginx:1.29-debian13",
+          "state": "exited",
+          "running": false,
+          "user": "nginx",
+          "privileged": false,
+          "readonly_rootfs": false,
+          "cap_add": [],
+          "security_opt": [],
+          "network_mode": "bridge",
+          "published_ports": {},
+          "mounts": [],
+          "restart_policy": "no"
+        }
+      },
+      {
+        "summary": {
+          "Command": "\"nginx -g 'daemon off;'\"",
+          "CreatedAt": "2026-10-08 05:27:15 +0000 UTC",
+          "ID": "fe7c5930beebba73baa36b55034e578da66aff4f33a660d584fbaaa7f69c4bc2",
+          "Image": "dhi.io/nginx:1.29-debian13",
+          "Labels": "com.docker.dhi.chain-id=sha256:fe4003760f9eab6986cef0dfb9dbe012c45e980fc7094885f9d5c54ffe59ea1a,com.docker.dhi.compliance=cis,com.docker.dhi.created=2026-04-07T15:30:16Z,com.docker.dhi.date.release=2025-06-24,com.docker.dhi.definition=image/nginx/debian-13/mainline,com.docker.dhi.distro=debian-13,com.docker.dhi.entitlement=public,com.docker.dhi.flavor=,com.docker.dhi.name=dhi/nginx,com.docker.dhi.package-manager=,com.docker.dhi.shell=,com.docker.dhi.title=Nginx mainline,com.docker.dhi.url=https://dhi.io/catalog/nginx,com.docker.dhi.variant=runtime,com.docker.dhi.version=1.29.8-debian13",
+          "LocalVolumes": "0",
+          "Mounts": "",
+          "Names": "exciting_golick",
+          "Networks": "bridge",
+          "Platform": {
+            "architecture": "amd64",
+            "os": "linux"
+          },
+          "Ports": "",
+          "RunningFor": "2 days ago",
+          "Size": "57.3kB (virtual 41.8MB)",
+          "State": "exited",
+          "Status": "Exited (0) 2 days ago"
+        },
+        "inspect_error": null,
+        "security_review": {
+          "name": "exciting_golick",
+          "image": "dhi.io/nginx:1.29-debian13",
+          "state": "exited",
+          "running": false,
+          "user": "nginx",
+          "privileged": false,
+          "readonly_rootfs": false,
+          "cap_add": [],
+          "security_opt": [],
+          "network_mode": "bridge",
+          "published_ports": {},
+          "mounts": [],
+          "restart_policy": "no"
+        }
+      }
+    ]
+  },
+  "tool_versions": {
+    "docker": {
+      "command": "docker --version",
+      "returncode": 0,
+      "stdout": "Docker version 29.1.3, build 29.1.3-0ubuntu4.1\n",
+      "stderr": ""
+    },
+    "docker_scout": {
+      "command": "docker scout version",
+      "returncode": 0,
+      "stdout": "\n      ⢀⢀⢀             ⣀⣀⡤⣔⢖⣖⢽⢝\n   ⡠⡢⡣⡣⡣⡣⡣⡣⡢⡀    ⢀⣠⢴⡲⣫⡺⣜⢞⢮⡳⡵⡹⡅\n  ⡜⡜⡜⡜⡜⡜⠜⠈⠈        ⠁⠙⠮⣺⡪⡯⣺⡪⡯⣺ \n ⢘⢜⢜⢜⢜⠜               ⠈⠪⡳⡵⣹⡪⠇ \n ⠨⡪⡪⡪⠂    ⢀⡤⣖⢽⡹⣝⡝⣖⢤⡀    ⠘⢝⢮⡚       _____                 _   \n  ⠱⡱⠁    ⡴⡫⣞⢮⡳⣝⢮⡺⣪⡳⣝⢦    ⠘⡵⠁      / ____| Docker        | |  \n   ⠁    ⣸⢝⣕⢗⡵⣝⢮⡳⣝⢮⡺⣪⡳⣣    ⠁      | (___   ___ ___  _   _| |_ \n        ⣗⣝⢮⡳⣝⢮⡳⣝⢮⡳⣝⢮⢮⡳            \\___ \\ / __/ _ \\| | | | __|\n   ⢀    ⢱⡳⡵⣹⡪⡳⣝⢮⡳⣝⢮⡳⡣⡏    ⡀       ____) | (_| (_) | |_| | |_ \n  ⢀⢾⠄    ⠫⣞⢮⡺⣝⢮⡳⣝⢮⡳⣝⠝    ⢠⢣⢂     |_____/ \\___\\___/ \\__,_|\\__|\n  ⡼⣕⢗⡄    ⠈⠓⠝⢮⡳⣝⠮⠳⠙     ⢠⢢⢣⢣  \n ⢰⡫⡮⡳⣝⢦⡀              ⢀⢔⢕⢕⢕⢕⠅ \n ⡯⣎⢯⡺⣪⡳⣝⢖⣄⣀        ⡀⡠⡢⡣⡣⡣⡣⡣⡃  \n⢸⢝⢮⡳⣝⢮⡺⣪⡳⠕⠗⠉⠁    ⠘⠜⡜⡜⡜⡜⡜⡜⠜⠈   \n⡯⡳⠳⠝⠊⠓⠉             ⠈⠈⠈⠈      \n\n\n\nversion: v1.26.0 (go1.26.3-X:jsonv2 - linux/amd64)\ngit commit: ee73e17cd5243bd85c30416b274c339ad5e2f284\n",
+      "stderr": ""
+    },
+    "trivy": {
+      "command": "trivy --version",
+      "returncode": 0,
+      "stdout": "Version: 0.75.0\n",
+      "stderr": ""
+    },
+    "ollama_model": "qwen2.5-coder:3b",
+    "ollama_url": "http://127.0.0.1:11434"
+  }
+}

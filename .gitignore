@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Logs
+*.log
+
+# Generated reports
+trivy-report.json
+reports/
+
+# Temporary files
+tmp/
+temp/
+
+# Ollama / model files
+*.gguf
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
