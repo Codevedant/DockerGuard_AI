@@ -123,4 +123,3 @@ These are heuristics, not proof of a vulnerability. For example, a missing `USER
 - The agent deliberately does not delete packages or edit your Dockerfile. It gives recommendations only.
 - Docker access is highly privileged. Run the agent only on systems you administer.
 - The script uses Docker commands read-only, but vulnerability scanners may download/update their advisory databases.
-# DockerGuard_AI
